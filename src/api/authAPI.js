@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-const API_BASE = 'https://more-garden-backend-2.onrender.com/api/auth';
+
+const API_BASE = (import.meta.env.VITE_BACKEND_URL || "http://localhost:4000") + "/api/auth";
+
+
+
+
 
 export const loginUser = async (credentials) => {
   const res = await axios.post(`${API_BASE}/login`, credentials);

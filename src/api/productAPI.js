@@ -1,7 +1,7 @@
 // src/api/productAPI.js
 import axios from 'axios';
 
-const API_BASE_URL = 'https://more-garden-backend-2.onrender.com/api/products';
+const API_BASE_URL = (import.meta.env.VITE_BACKEND_URL || "http://localhost:4000") + "/api/products";
 
 export const createProduct = async (formData) => {
   console.log('Creating product with data:', formData);

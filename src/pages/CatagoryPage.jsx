@@ -111,7 +111,7 @@ const CategoryPage = () => {
     <>
       <SEO title={getTitle()} description={getDescription()} />
 
-      <div className="min-h-screen bg-[#F3F9F3] md:px-12 py-6 md:py-8">
+      <div className="min-h-screen bg-[#F3F9F3] md:px-12 pb-6 md:py-6 md:pb-8">
         {/* Filter Section */}
         <div className="mb-6 bg-white shadow rounded-xl p-3 md:p-6">
           <h1 className="text-lg md:text-2xl font-bold text-green-800 mb-3 md:mb-4">

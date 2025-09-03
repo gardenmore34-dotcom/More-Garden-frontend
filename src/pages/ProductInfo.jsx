@@ -1,5 +1,5 @@
 // src/pages/ProductInfo.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import {toast} from 'react-hot-toast';
 import { addToCartAPI } from '../api/cartAPI';
@@ -22,7 +22,7 @@ const ProductInfo = () => {
   const [makeGift, setMakeGift] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [isPayPopupOpen, setIsPayPopupOpen] = useState(false);
-
+  const memoizedSimilarProducts = useMemo(() => similarProducts, [similarProducts.length]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -46,6 +46,8 @@ const ProductInfo = () => {
             (p) => p.category === product.category && p._id !== product._id
           );
           setSimilarProducts(filtered.slice(0, 4));
+          
+          
         }
       } catch (err) {
         console.error('Error fetching similar products:', err);
@@ -54,6 +56,7 @@ const ProductInfo = () => {
     if (product) {
       fetchSimilarProducts();
     }
+    console.log("similarProducts:", similarProducts);
   }, [product]);
 
   if (!product) {
@@ -84,7 +87,7 @@ const ProductInfo = () => {
 
   return (
     <>
-    <div className="min-h-screen bg-[#F5FAF4] px-4 md:py-10">
+    <div className="min-h-screen bg-[#F3F9F3] md:px-12 pb-6 md:py-6 md:pb-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 bg-white p-8 rounded-2xl shadow-lg">
         {/* Image Section */}
         <div>
@@ -251,11 +254,17 @@ const ProductInfo = () => {
       </div>
 
       {/* Also Buy Section */}
-      {similarProducts.length > 0 && (
-        <div className="mt-16">
-          <ProductShowcase title="You May Also Like" products={similarProducts} />
-        </div>
-      )}
+     <div className="mt-16">
+  <ProductShowcase 
+    title="You May Also Like" 
+    type="similar"
+    categorySlug={product?.category?.toLowerCase()}
+    productType={product?.type}
+    excludeProductId={product?._id}
+    limit={4}
+  />
+</div>
+      
     </div>
     <div className="max-w-6xl mx-auto px-4 py-10">
       <ProductReviews productId={product._id} userId={userId} />

@@ -18,7 +18,7 @@ const ProfilePage = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  const userName = localStorage.getItem("userName") || "Guest"; 
+  const userName = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).name : "Guest";
 
   useEffect(() => {
     const updateTime = () => {
@@ -143,9 +143,7 @@ const ProfilePage = () => {
             </button>
           </div>
 
-          <div className="mt-4 bg-green-800 rounded-lg px-4 py-2">
-            <h2 className="text-base font-medium text-green-100">{currentTabLabel}</h2>
-          </div>
+         
         </header>
 
         {/* Mobile Menu Overlay */}
