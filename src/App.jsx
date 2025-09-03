@@ -23,7 +23,7 @@ import useAutoLogout from './utils/autoLogout';
 import AdminTestimonialPage from './pages/AdminTestimonialPage';
 import BulkProductPage from './pages/BulkProductPage';
 import BulkProduct from './pages/BulkProduct';
-import StickyFooter from './components/StickyFooter';
+
 
 export default function App() {
   useAutoLogout();
