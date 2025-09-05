@@ -29,25 +29,18 @@ const SearchBar = () => {
     handleSearch(value);
   };
 
-  // Click outside to navigate
+  // ✅ only close dropdown on outside click, not navigate
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(e.target) &&
-        query &&
-        !clickedDropdown.current
-      ) {
-        navigate(`/search?query=${encodeURIComponent(query)}`);
-        setQuery('');
-        setResults([]);
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+        setResults([]); // close dropdown
       }
       clickedDropdown.current = false;
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [query, navigate]);
+  }, []);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && query.trim()) {

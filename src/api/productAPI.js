@@ -1,7 +1,9 @@
 // src/api/productAPI.js
 import axios from 'axios';
 
-const API_BASE_URL = (import.meta.env.VITE_BACKEND_URL || "http://localhost:4000") + "/api/products";
+const API_BASE_URL = (import.meta.env.VITE_BACKEND_URL ) + "/api/products";
+console.log('API_BASE_URL:', API_BASE_URL);
+
 
 export const createProduct = async (formData) => {
   console.log('Creating product with data:', formData);

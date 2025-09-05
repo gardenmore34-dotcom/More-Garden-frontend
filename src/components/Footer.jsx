@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube, FaWhatsapp } from 'react-icons/fa';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
   const [openDropdowns, setOpenDropdowns] = useState({});
+  const navigate = useNavigate();
 
   const toggleDropdown = (section) => {
     setOpenDropdowns(prev => ({
@@ -13,7 +15,7 @@ const Footer = () => {
   };
 
   const handleNavigation = (path) => {
-    // Add your navigation logic here
+    navigate(path);
     console.log(`Navigating to: ${path}`);
   };
 
