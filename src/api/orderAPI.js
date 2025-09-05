@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = (import.meta.env.VITE_BACKEND_URL || "http://localhost:4000") + "/api/order";
+const API_BASE_URL = (import.meta.env.VITE_BACKEND_URL) + "/api/order";
 
 
 export const getUserOrders = async (userId) => {
