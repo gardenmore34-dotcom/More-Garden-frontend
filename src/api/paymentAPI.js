@@ -24,7 +24,7 @@ export const verifyPayment = async ({ userId, orderId, amount, paymentData, cart
 };
 
 export const placeCODOrder = async ({ userId, cartItems, total }) => {
-  console.log('frontend [1] placeCODOrder called with:', { userId, cartItems, total });
+  
   
   const response = await axios.post(`${API_BASE_URL}/place-cod-order`, {
     userId,

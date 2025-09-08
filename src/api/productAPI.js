@@ -2,11 +2,11 @@
 import axios from 'axios';
 
 const API_BASE_URL = (import.meta.env.VITE_BACKEND_URL ) + "/api/products";
-console.log('API_BASE_URL:', API_BASE_URL);
+
 
 
 export const createProduct = async (formData) => {
-  console.log('Creating product with data:', formData);
+ 
   
   const res = await axios.post(`${API_BASE_URL}/add`, formData, {
     headers: {
@@ -32,7 +32,7 @@ export const deleteProduct = async (id) => {
 };
 
 export const updateProduct = async (id, data) => {
-  console.log('Updating product with ID:', id, 'and data:', data);
+  
   const res = await axios.put(`${API_BASE_URL}/update/${id}`, data);
   return res.data;
 };
@@ -44,11 +44,11 @@ export const searchProducts = async (query) => {
 
 export const getAllProducts = async () => {
   const url = `${API_BASE_URL}?limit=1000`;
-  console.log('🔍 Calling getAllProducts URL:', url);
+  
   
   try {
     const response = await axios.get(url);
-    console.log('📡 Response status:', response.status);
+ 
     return response.data;
   } catch (error) {
     console.error('❌ getAllProducts error:', error);
@@ -58,11 +58,11 @@ export const getAllProducts = async () => {
 
 export const getProductsByCategory = async (categorySlug) => {
   const url = `${API_BASE_URL}?category=${categorySlug}`;
-  console.log('🔍 Calling getProductsByCategory URL:', url);
+ 
   
   try {
     const response = await axios.get(url);
-    console.log('📡 Response status:', response.status);
+  
     return response.data;
   } catch (error) {
     console.error('❌ getProductsByCategory error:', error);
@@ -97,11 +97,11 @@ export const getBulkProducts = async () => {
 
 export const getProductsByType = async (typeSlug) => {
   const url = `${API_BASE_URL}?type=${typeSlug}`;
-  console.log('🔍 Calling getProductsByType URL:', url);
+  
   
   try {
     const response = await axios.get(url);
-    console.log('📡 Response status:', response.status);
+    
     return response.data;
   } catch (error) {
     console.error('❌ getProductsByType error:', error);

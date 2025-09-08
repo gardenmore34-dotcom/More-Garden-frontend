@@ -49,7 +49,7 @@ const ProductShowcase = ({
               fetchedProducts = fetchedProducts.filter(p => p._id !== excludeProductId);
             }
             
-            console.log(`Found ${fetchedProducts.length} products in category: ${categorySlug}`);
+            
           } catch (categoryError) {
             console.warn('Category search failed:', categoryError);
             fetchedProducts = [];
@@ -59,7 +59,7 @@ const ProductShowcase = ({
         // Fallback: If no products found in category and we have productType, search by type
         if (fetchedProducts.length === 0 && productType) {
           setCurrentSearchType('type');
-          console.log(`No products in category, searching by type: ${productType}`);
+        
           
           try {
             const res = await getAllProducts();
@@ -75,7 +75,7 @@ const ProductShowcase = ({
               fetchedProducts = fetchedProducts.filter(p => p._id !== excludeProductId);
             }
             
-            console.log(`Found ${fetchedProducts.length} products by type: ${productType}`);
+         
           } catch (typeError) {
             console.warn('Type search failed:', typeError);
             fetchedProducts = [];
@@ -85,7 +85,7 @@ const ProductShowcase = ({
         // Final fallback: Get random products if still no results
         if (fetchedProducts.length === 0) {
           setCurrentSearchType('random');
-          console.log('No products found by category or type, getting random products');
+         
           
           try {
             const res = await getAllProducts();
@@ -98,7 +98,7 @@ const ProductShowcase = ({
             randomProducts = randomProducts.sort(() => 0.5 - Math.random());
             fetchedProducts = randomProducts;
             
-            console.log(`Showing ${Math.min(fetchedProducts.length, limit)} random products as fallback`);
+            
           } catch (randomError) {
             console.error('Random search also failed:', randomError);
             fetchedProducts = [];

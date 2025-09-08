@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube, FaWhatsapp } from 'react-icons/fa';
+import { FaFacebookF, FaInstagram, FaYoutube, FaWhatsapp } from 'react-icons/fa';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,30 +30,43 @@ const Footer = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4 text-white">About Us</h3>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-green-400 transition">Our Story</a></li>
                 <li><a href="/contact" className="hover:text-green-400 transition">Contact Us</a></li>
-                <li><a href="#" className="hover:text-green-400 transition">Locate Stores</a></li>
-                <li><a href="#" className="hover:text-green-400 transition">Garden Services</a></li>
+                <li><a href="/blog" className="hover:text-green-400 transition">Plant Care Tips</a></li>
               </ul>
             </div>
 
-            {/* Customer Care */}
+            {/* Our Products */}
             <div>
-              <h3 className="text-lg font-semibold mb-4 text-white">Customer Care</h3>
+              <h3 className="text-lg font-semibold mb-4 text-white">Our Products</h3>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-green-400 transition">Track Order</a></li>
-                <li><a href="#" className="hover:text-green-400 transition">Shipping Policy</a></li>
-                <li><a href="#" className="hover:text-green-400 transition">Terms & Conditions</a></li>
-                <li><a href="#" className="hover:text-green-400 transition">Refund Policy</a></li>
+                <li><a href="/type/plants" className="hover:text-green-400 transition">Plants</a></li>
+                <li><a href="/type/tools" className="hover:text-green-400 transition">Garden Tools</a></li>
+                <li><a href="/type/seeds" className="hover:text-green-400 transition">Seeds</a></li>
+                <li><a href="/type/fertilizers" className="hover:text-green-400 transition">Fertilizers</a></li>
+                <li><a href="/type/pots" className="hover:text-green-400 transition">Pots & Planters</a></li>
               </ul>
             </div>
 
-            {/* Offers & Rewards */}
+            {/* Customer Support */}
             <div>
-              <h3 className="text-lg font-semibold mb-4 text-white">Offers & Rewards</h3>
+              <h3 className="text-lg font-semibold mb-4 text-white">Customer Support</h3>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-green-400 transition">Rewards Club</a></li>
-                <li><a href="#" className="hover:text-green-400 transition">Coupons</a></li>
+                <li>
+                  <a 
+                    href="https://wa.me/919876543210" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-green-400 transition"
+                  >
+                    WhatsApp Support
+                  </a>
+                </li>
+                <li>
+                  <a href="tel:+919876543210" className="hover:text-green-400 transition">
+                    Call Support
+                  </a>
+                </li>
+                <li><a href="/contact" className="hover:text-green-400 transition">Get Help</a></li>
               </ul>
             </div>
 
@@ -74,8 +87,8 @@ const Footer = () => {
               </p>
               <p className="text-sm mb-1">
                 <strong>Phone:</strong>{' '}
-                <a href="tel:+919767057658" className="hover:text-green-400 transition">
-                  +91 9767057658
+                <a href="tel:+919876543210" className="hover:text-green-400 transition">
+                  +91 9876543210
                 </a>
               </p>
               <p className="text-sm mb-4">
@@ -88,17 +101,40 @@ const Footer = () => {
                 </a>
               </p>
 
-              <h3 className="text-lg font-semibold mb-2 text-white">Connect With Us</h3>
-              <div className="flex space-x-4 mt-2 text-lg">
-                <a href="#" className="hover:text-green-400 transition"><FaFacebookF /></a>
-                <a href="#" className="hover:text-green-400 transition"><FaInstagram /></a>
-                <a href="#" className="hover:text-green-400 transition"><FaLinkedinIn /></a>
-                <a href="#" className="hover:text-green-400 transition"><FaYoutube /></a>
-                <a
-                  href="https://wa.me/919767057658"
+              <h3 className="text-lg font-semibold mb-3 text-white">Connect With Us</h3>
+              <div className="flex space-x-4 text-xl">
+                <a 
+                  href="https://www.facebook.com/PritamMore5555/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-green-400 transition"
+                  className="hover:text-green-400 transition-colors duration-300"
+                  title="Follow us on Facebook"
+                >
+                  <FaFacebookF />
+                </a>
+                <a 
+                  href="https://www.instagram.com/moregardenspune/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-green-400 transition-colors duration-300"
+                  title="Follow us on Instagram"
+                >
+                  <FaInstagram />
+                </a>
+                <a 
+                  href="https://www.youtube.com/@MoreGardensPune"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-green-400 transition-colors duration-300"
+                  title="Subscribe to our YouTube channel"
+                >
+                  <FaYoutube />
+                </a>
+                <a
+                  href="https://wa.me/919876543210"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-green-400 transition-colors duration-300"
                   title="Chat on WhatsApp"
                 >
                   <FaWhatsapp />
@@ -125,54 +161,67 @@ const Footer = () => {
               </button>
               {openDropdowns.about && (
                 <ul className="mt-3 space-y-2 text-sm pl-4">
-                  <li><a href="#" className="hover:text-green-400 transition">Our Story</a></li>
                   <li><a href="/contact" className="hover:text-green-400 transition">Contact Us</a></li>
-                  <li><a href="#" className="hover:text-green-400 transition">Locate Stores</a></li>
-                  <li><a href="#" className="hover:text-green-400 transition">Garden Services</a></li>
+                  <li><a href="/blog" className="hover:text-green-400 transition">Plant Care Tips</a></li>
                 </ul>
               )}
             </div>
 
-            {/* Customer Care Dropdown */}
+            {/* Our Products Dropdown */}
             <div className="border-b border-gray-700 pb-4">
               <button
-                onClick={() => toggleDropdown('care')}
+                onClick={() => toggleDropdown('products')}
                 className="flex justify-between items-center w-full text-left"
               >
-                <h3 className="text-lg font-semibold text-white">Customer Care</h3>
-                {openDropdowns.care ? (
+                <h3 className="text-lg font-semibold text-white">Our Products</h3>
+                {openDropdowns.products ? (
                   <ChevronUp className="w-5 h-5 text-gray-400" />
                 ) : (
                   <ChevronDown className="w-5 h-5 text-gray-400" />
                 )}
               </button>
-              {openDropdowns.care && (
+              {openDropdowns.products && (
                 <ul className="mt-3 space-y-2 text-sm pl-4">
-                  <li><a href="#" className="hover:text-green-400 transition">Track Order</a></li>
-                  <li><a href="#" className="hover:text-green-400 transition">Shipping Policy</a></li>
-                  <li><a href="#" className="hover:text-green-400 transition">Terms & Conditions</a></li>
-                  <li><a href="#" className="hover:text-green-400 transition">Refund Policy</a></li>
+                  <li><a href="/type/plants" className="hover:text-green-400 transition">Plants</a></li>
+                  <li><a href="/type/tools" className="hover:text-green-400 transition">Garden Tools</a></li>
+                  <li><a href="/type/seeds" className="hover:text-green-400 transition">Seeds</a></li>
+                  <li><a href="/type/fertilizers" className="hover:text-green-400 transition">Fertilizers</a></li>
+                  <li><a href="/type/pots" className="hover:text-green-400 transition">Pots & Planters</a></li>
                 </ul>
               )}
             </div>
 
-            {/* Offers & Rewards Dropdown */}
+            {/* Customer Support Dropdown */}
             <div className="border-b border-gray-700 pb-4">
               <button
-                onClick={() => toggleDropdown('offers')}
+                onClick={() => toggleDropdown('support')}
                 className="flex justify-between items-center w-full text-left"
               >
-                <h3 className="text-lg font-semibold text-white">Offers & Rewards</h3>
-                {openDropdowns.offers ? (
+                <h3 className="text-lg font-semibold text-white">Customer Support</h3>
+                {openDropdowns.support ? (
                   <ChevronUp className="w-5 h-5 text-gray-400" />
                 ) : (
                   <ChevronDown className="w-5 h-5 text-gray-400" />
                 )}
               </button>
-              {openDropdowns.offers && (
+              {openDropdowns.support && (
                 <ul className="mt-3 space-y-2 text-sm pl-4">
-                  <li><a href="#" className="hover:text-green-400 transition">Rewards Club</a></li>
-                  <li><a href="#" className="hover:text-green-400 transition">Coupons</a></li>
+                  <li>
+                    <a 
+                      href="https://wa.me/919876543210" 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-green-400 transition"
+                    >
+                      WhatsApp Support
+                    </a>
+                  </li>
+                  <li>
+                    <a href="tel:+919876543210" className="hover:text-green-400 transition">
+                      Call Support
+                    </a>
+                  </li>
+                  <li><a href="/contact" className="hover:text-green-400 transition">Get Help</a></li>
                 </ul>
               )}
             </div>
@@ -194,8 +243,8 @@ const Footer = () => {
               </p>
               <p className="text-sm mb-1">
                 <strong>Phone:</strong>{' '}
-                <a href="tel:+919767057658" className="hover:text-green-400 transition">
-                  +91 9767057658
+                <a href="tel:+919876543210" className="hover:text-green-400 transition">
+                  +91 9876543210
                 </a>
               </p>
               <p className="text-sm mb-4">
@@ -208,17 +257,40 @@ const Footer = () => {
                 </a>
               </p>
 
-              <h3 className="text-lg font-semibold mb-2 text-white">Connect With Us</h3>
-              <div className="flex space-x-4 mt-2 text-lg">
-                <a href="#" className="hover:text-green-400 transition"><FaFacebookF /></a>
-                <a href="#" className="hover:text-green-400 transition"><FaInstagram /></a>
-                <a href="#" className="hover:text-green-400 transition"><FaLinkedinIn /></a>
-                <a href="#" className="hover:text-green-400 transition"><FaYoutube /></a>
-                <a
-                  href="https://wa.me/919767057658"
+              <h3 className="text-lg font-semibold mb-3 text-white">Connect With Us</h3>
+              <div className="flex space-x-6 text-2xl justify-center">
+                <a 
+                  href="https://www.facebook.com/PritamMore5555/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-green-400 transition"
+                  className="hover:text-green-400 transition-colors duration-300"
+                  title="Follow us on Facebook"
+                >
+                  <FaFacebookF />
+                </a>
+                <a 
+                  href="https://www.instagram.com/moregardenspune/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-green-400 transition-colors duration-300"
+                  title="Follow us on Instagram"
+                >
+                  <FaInstagram />
+                </a>
+                <a 
+                  href="https://www.youtube.com/@MoreGardensPune"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-green-400 transition-colors duration-300"
+                  title="Subscribe to our YouTube channel"
+                >
+                  <FaYoutube />
+                </a>
+                <a
+                  href="https://wa.me/919876543210"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-green-400 transition-colors duration-300"
                   title="Chat on WhatsApp"
                 >
                   <FaWhatsapp />
@@ -237,7 +309,7 @@ const Footer = () => {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 750 471"
-              className="h-8 w-auto filter  transition duration-300"
+              className="h-8 w-auto filter transition duration-300"
             >
               <rect width="750" height="471" fill="white" rx="8" />
               <path fill="#1A1F71" d="M278 318l34-165h55l-34 165h-55zM507 157c-11-4-27-7-47-7-51 0-86 27-87 65 0 28 26 44 46 53 21 10 28 16 27 25 0 13-16 19-31 19-20 0-31-3-48-10l-7-3-7 47c12 6 34 11 57 11 54 0 89-27 89-68 0-23-13-40-44-55-18-9-30-15-30-24s10-17 31-17c18 0 30 4 40 8l5 2 8-46zM636 153h-43c-13 0-23 4-28 17l-83 191h59s10-26 13-32h72c2 8 7 32 7 32h52l-49-208zm-74 128c5-13 24-61 24-61-1 1 5-13 8-22l4 19s11 46 13 55h-49zM225 153l-54 113-6-34c-11-39-46-81-85-102l49 177h58l86-154h-48z"/>
@@ -247,7 +319,7 @@ const Footer = () => {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 504 315"
-              className="h-8 w-auto filter  transition duration-300"
+              className="h-8 w-auto filter transition duration-300"
             >
               <rect width="504" height="315" fill="white" rx="8" />
               <circle cx="200" cy="157" r="90" fill="#EB001B" />
@@ -259,7 +331,7 @@ const Footer = () => {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 750 471"
-              className="h-8 w-auto filter  transition duration-300"
+              className="h-8 w-auto filter transition duration-300"
             >
               <rect width="750" height="471" fill="#2E77BC" rx="8" />
               <path
@@ -272,7 +344,7 @@ const Footer = () => {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 2500 2500"
-              className="h-8 w-auto filter  transition duration-300"
+              className="h-8 w-auto filter transition duration-300"
             >
               <rect width="2500" height="2500" fill="white" rx="8" />
               <path
