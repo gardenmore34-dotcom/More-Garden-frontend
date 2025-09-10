@@ -1,13 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductSearch from './ProductSearch';
 import { UserCircle, Menu, X } from 'lucide-react';
 import { useAuth } from '../utils/AuthContext';
+import { IconPlant, IconSeeds, IconWateringCan, IconFertilizerSack, IconPot } from './ui/icons';
+
+
+// Custom SVG Icons as React Components
+// Replace previous icon map
+
+
+
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { isLoggedIn, userInitial } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const body = document.body;
+
+    if (isMobileMenuOpen) {
+      const scrollY = window.scrollY;
+      body.dataset.scrollY = String(scrollY);
+      body.style.position = 'fixed';
+      body.style.top = `-${scrollY}px`;
+      body.style.left = '0';
+      body.style.right = '0';
+      body.style.width = '100%';
+      body.style.overflow = 'hidden';
+    } else {
+      const scrollY = parseInt(body.dataset.scrollY || '0', 10);
+      body.style.position = '';
+      body.style.top = '';
+      body.style.left = '';
+      body.style.right = '';
+      body.style.width = '';
+      body.style.overflow = '';
+      delete body.dataset.scrollY;
+      window.scrollTo(0, scrollY);
+    }
+
+    return () => {
+      const scrollY = parseInt(body.dataset.scrollY || '0', 10);
+      body.style.position = '';
+      body.style.top = '';
+      body.style.left = '';
+      body.style.right = '';
+      body.style.width = '';
+      body.style.overflow = '';
+      delete body.dataset.scrollY;
+      if (isMobileMenuOpen) window.scrollTo(0, scrollY);
+    };
+  }, [isMobileMenuOpen]);
 
   const handleProfileClick = () => {
     if (isLoggedIn) {
@@ -15,59 +60,73 @@ const Navbar = () => {
     } else {
       navigate('/auth');
     }
-    setIsMobileMenuOpen(false); // Close mobile menu
+    setIsMobileMenuOpen(false);
   };
 
   const handleCategoryClick = (category) => {
     const formattedCategory = category.toLowerCase();
     navigate(`/type/${formattedCategory}`);
-    setIsMobileMenuOpen(false); // Close mobile menu
+    setIsMobileMenuOpen(false);
   };
 
   const handleNavigation = (path) => {
     navigate(path);
-    setIsMobileMenuOpen(false); // Close mobile menu
+    setIsMobileMenuOpen(false);
   };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  // Map categories to their new SVG icons component
+  const categoryIconMap = {
+  Plants: <IconPlant className="w-5 h-5 text-green-700" />,
+  Seeds: <IconSeeds className="w-5 h-5 text-yellow-600" />,
+  Tools: <IconWateringCan className="w-5 h-5 text-green-600" />,
+  Fertilizers: <IconFertilizerSack className="w-5 h-5 text-amber-700" />,
+  Pots: <IconPot className="w-5 h-5 text-orange-700" />,
+};
+
   return (
     <>
-      {/* Sticky Header - Logo and Navigation */}
-      <nav className="sticky top-0 z-40 flex justify-between items-center px-6 py-4 bg-[#FDFBF7] shadow-md">
+      {/* Sticky Header */}
+      <nav className="sticky top-0 z-40 flex justify-between items-center px-6 py-4 bg-[#FDFBF7]/95 backdrop-blur-sm shadow-md border-b border-green-100">
         {/* Logo */}
         <div
-          className="text-2xl font-bold text-green-700 cursor-pointer"
+          className="text-2xl font-bold text-green-700 cursor-pointer flex items-center space-x-2 hover:scale-105 transition-transform duration-300"
           onClick={() => navigate('/')}
         >
-          🌿 MoreGarden
+          <span className="text-3xl">🌿</span>
+          <span>MoreGarden</span>
         </div>
 
-        {/* Desktop Navigation - Hidden on mobile */}
+        {/* Desktop Navigation */}
         <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
           {['Plants', 'Seeds', 'Tools', 'Fertilizers', 'Pots'].map((category) => (
             <li
               key={category}
-              className="hover:text-green-700 cursor-pointer transition"
+              className="hover:text-green-700 cursor-pointer transition-all duration-300 flex items-center space-x-1"
               onClick={() => handleCategoryClick(category)}
             >
-              {category}
+              <span>{categoryIconMap[category]}</span>
+              <span>{category}</span>
             </li>
           ))}
-          <li className="hover:text-green-700 cursor-pointer" onClick={() => navigate('/blog')}>
-            Blog
+          <li className="hover:text-green-700 cursor-pointer transition flex items-center space-x-1" onClick={() => navigate('/blog')}>
+            <span className="text-lg">📖</span>
+            <span>Blog</span>
           </li>
-          <li className="hover:text-green-700 cursor-pointer" onClick={() => navigate('/about')}>
-            About Us
+          <li className="hover:text-green-700 cursor-pointer transition flex items-center space-x-1" onClick={() => navigate('/about')}>
+            <span className="text-lg">👥</span>
+            <span>About Us</span>
           </li>
-          <li className="hover:text-green-700 cursor-pointer" onClick={() => navigate('/bulk')}>
-            Bulk Products
+          <li className="hover:text-green-700 cursor-pointer transition flex items-center space-x-1" onClick={() => navigate('/bulk')}>
+            <span className="text-lg">📦</span>
+            <span>Bulk Products</span>
           </li>
         </ul>
 
-        {/* Desktop Right Side - Search, Profile, Cart */}
+        {/* Desktop Right Side */}
         <div className="hidden md:flex items-center space-x-4">
           <ProductSearch />
 
@@ -96,7 +155,7 @@ const Navbar = () => {
           </span>
         </div>
 
-        {/* Mobile Right Side - Profile, Cart, Hamburger */}
+        {/* Mobile Right Side */}
         <div className="md:hidden flex items-center space-x-4">
           {/* Mobile Profile Icon */}
           <div
@@ -138,13 +197,13 @@ const Navbar = () => {
       </nav>
 
       {/* Non-sticky Search Bar - Mobile Only */}
-      <div className="md:hidden px-6 py-3 bg-[#FDFBF7] shadow-md -mb-1">
+      <div className="md:hidden px-6 py-3 bg-[#FDFBF7]/90 backdrop-blur-sm shadow-md -mb-1">
         <ProductSearch />
       </div>
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`md:hidden fixed inset-0 z-50 transition-all duration-300 ease-in-out ${
+        className={`md:hidden fixed inset-0 z-50 transition-all duration-300 ease-in-out overscroll-contain ${
           isMobileMenuOpen 
             ? 'opacity-100 pointer-events-auto' 
             : 'opacity-0 pointer-events-none'
@@ -152,13 +211,13 @@ const Navbar = () => {
       >
         {/* Backdrop */}
         <div 
-          className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
           onClick={toggleMobileMenu}
         />
         
         {/* Slide-in Menu */}
         <div
-          className={`absolute top-0 right-0 h-full w-[85vw] max-w-sm bg-[#FDFBF7] shadow-2xl transform transition-transform duration-300 ease-out ${
+          className={`absolute top-0 right-0 h-full w-[85vw] max-w-sm bg-[#FDFBF7]/95 backdrop-blur-md shadow-2xl transform transition-transform duration-300 ease-out overflow-y-auto overscroll-contain ${
             isMobileMenuOpen 
               ? 'translate-x-0' 
               : 'translate-x-full'
@@ -166,7 +225,7 @@ const Navbar = () => {
           onClick={(e) => e.stopPropagation()}
         >
           {/* Mobile Menu Header */}
-          <div className="flex justify-between items-center p-6 border-b border-green-100 bg-gradient-to-r from-green-50 to-green-25">
+          <div className="flex justify-between items-center p-6 border-b border-green-100 bg-green-50/50">
             <div className="flex items-center space-x-2">
               <span className="text-xl">🌿</span>
               <span className="text-lg font-bold text-green-700">MoreGarden</span>
@@ -180,24 +239,19 @@ const Navbar = () => {
             </button>
           </div>
 
-
-
           {/* Mobile Navigation Links */}
           <div className="flex-1 overflow-y-auto">
             {/* Categories */}
             <div className="p-6 space-y-1">
               <h3 className="text-xs font-bold text-green-600 uppercase tracking-wider mb-4 px-3">Shop Categories</h3>
-              {['Plants', 'Seeds', 'Tools', 'Fertilizers', 'Pots'].map((category, index) => (
+              {['Plants', 'Seeds', 'Tools', 'Fertilizers', 'Pots'].map((category) => (
                 <button
                   key={category}
-                  className="group w-full text-left px-4 py-3 text-gray-700 hover:text-green-700 hover:bg-green-50 active:bg-green-100 transition-all duration-200 font-medium rounded-xl border border-transparent hover:border-green-100"
+                  className="group w-full text-left px-4 py-3 text-gray-700 hover:text-green-700 hover:bg-green-50 active:bg-green-100 transition-all duration-200 font-medium rounded-xl border border-transparent hover:border-green-100 flex items-center space-x-3"
                   onClick={() => handleCategoryClick(category)}
-                  style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  <div className="flex items-center justify-between">
-                    <span>{category}</span>
-                    <span className="text-green-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
-                  </div>
+                  <span>{categoryIconMap[category]}</span>
+                  <span>{category}</span>
                 </button>
               ))}
             </div>
@@ -206,28 +260,28 @@ const Navbar = () => {
             <div className="px-6 pb-6 space-y-1">
               <h3 className="text-xs font-bold text-green-600 uppercase tracking-wider mb-4 px-3 pt-4 border-t border-green-100">More</h3>
               {[
-                { label: 'Blog', path: '/blog' },
-                { label: 'About Us', path: '/about' },
-                { label: 'Bulk Products', path: '/bulk' }
-              ].map((item, index) => (
+                { label: 'Blog', path: '/blog', icon: '📖' },
+                { label: 'About Us', path: '/about', icon: '👥' },
+                { label: 'Bulk Products', path: '/bulk', icon: '📦' }
+              ].map((item) => (
                 <button
                   key={item.label}
-                  className="group w-full text-left px-4 py-3 text-gray-700 hover:text-green-700 hover:bg-green-50 active:bg-green-100 transition-all duration-200 font-medium rounded-xl border border-transparent hover:border-green-100"
+                  className="group w-full text-left px-4 py-3 text-gray-700 hover:text-green-700 hover:bg-green-50 active:bg-green-100 transition-all duration-200 font-medium rounded-xl border border-transparent hover:border-green-100 flex items-center space-x-3"
                   onClick={() => handleNavigation(item.path)}
-                  style={{ animationDelay: `${(index + 5) * 50}ms` }}
                 >
-                  <div className="flex items-center justify-between">
-                    <span>{item.label}</span>
-                    <span className="text-green-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200">→</span>
-                  </div>
+                  <span>{item.icon}</span>
+                  <span>{item.label}</span>
                 </button>
               ))}
             </div>
 
             {/* Bottom Section */}
-            <div className="p-6 border-t border-green-100 bg-gradient-to-b from-transparent to-green-25">
+            <div className="p-6 border-t border-green-100 bg-green-50/30">
               <div className="text-center text-sm text-gray-500">
-                <p className="font-medium text-green-700 mb-1">Happy Gardening! 🌱</p>
+                <p className="font-medium text-green-700 mb-1 flex items-center justify-center">
+                  <span className="mr-2">🌱</span>
+                  Happy Gardening!
+                </p>
                 <p>Find everything for your garden</p>
               </div>
             </div>
