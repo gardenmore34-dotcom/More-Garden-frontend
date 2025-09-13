@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { FaFacebookF, FaInstagram, FaYoutube, FaWhatsapp } from 'react-icons/fa';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../utils/AuthContext';
+// Import payment icons
+import { VisaIcon, MastercardIcon, AmexIcon, RazorpayIcon, PayPalIcon } from './ui/icons';
 
 const Footer = () => {
   const [openDropdowns, setOpenDropdowns] = useState({});
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
 
   const toggleDropdown = (section) => {
     setOpenDropdowns(prev => ({
@@ -19,9 +23,17 @@ const Footer = () => {
     console.log(`Navigating to: ${path}`);
   };
 
+  const handleProfileClick = () => {
+    if (isLoggedIn) {
+      navigate('/profile');
+    } else {
+      navigate('/auth');
+    }
+  };
+
   return (
     <>
-      <footer className="bg-gray-900 text-gray-300 py-12 px-6">
+      <footer className="bg-gray-900 text-gray-300 py-12 px-6 pb-24 md:pb-12">
         <div className="max-w-7xl mx-auto">
           
           {/* Desktop Layout - Hidden on mobile */}
@@ -300,58 +312,17 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Strip */}
+        {/* Bottom Strip with Payment Icons */}
         <div className="mt-12 border-t border-gray-700 pt-6 flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto text-sm text-gray-400">
-          <p className="mb-4 md:mb-0">© 2025 MyGarden. All rights reserved.</p>
-          {/* Payment Methods */}
+          <p className="mb-4 md:mb-0">© 2025 MoreGarden. All rights reserved.</p>
+          
+          {/* Payment Methods using imported components */}
           <div className="flex items-center space-x-4">
-            {/* Visa */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 750 471"
-              className="h-8 w-auto filter transition duration-300"
-            >
-              <rect width="750" height="471" fill="white" rx="8" />
-              <path fill="#1A1F71" d="M278 318l34-165h55l-34 165h-55zM507 157c-11-4-27-7-47-7-51 0-86 27-87 65 0 28 26 44 46 53 21 10 28 16 27 25 0 13-16 19-31 19-20 0-31-3-48-10l-7-3-7 47c12 6 34 11 57 11 54 0 89-27 89-68 0-23-13-40-44-55-18-9-30-15-30-24s10-17 31-17c18 0 30 4 40 8l5 2 8-46zM636 153h-43c-13 0-23 4-28 17l-83 191h59s10-26 13-32h72c2 8 7 32 7 32h52l-49-208zm-74 128c5-13 24-61 24-61-1 1 5-13 8-22l4 19s11 46 13 55h-49zM225 153l-54 113-6-34c-11-39-46-81-85-102l49 177h58l86-154h-48z"/>
-            </svg>
-
-            {/* Mastercard */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 504 315"
-              className="h-8 w-auto filter transition duration-300"
-            >
-              <rect width="504" height="315" fill="white" rx="8" />
-              <circle cx="200" cy="157" r="90" fill="#EB001B" />
-              <circle cx="304" cy="157" r="90" fill="#F79E1B" />
-              <path fill="#FF5F00" d="M229 87h46v140h-46z" />
-            </svg>
-
-            {/* American Express */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 750 471"
-              className="h-8 w-auto filter transition duration-300"
-            >
-              <rect width="750" height="471" fill="#2E77BC" rx="8" />
-              <path
-                fill="white"
-                d="M150 320h60l15-35h80l15 35h63l-80-170h-71l-82 170zm97-63l27-62 27 62h-54zM440 150h-56v170h56c45 0 75-30 75-85 0-55-30-85-75-85zm0 130h-21v-90h21c22 0 40 18 40 45 0 28-18 45-40 45z"
-              />
-            </svg>
-
-            {/* Razorpay */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 2500 2500"
-              className="h-8 w-auto filter transition duration-300"
-            >
-              <rect width="2500" height="2500" fill="white" rx="8" />
-              <path
-                fill="#0C59A4"
-                d="M1132 1952h-362l662-1392h362l-662 1392zM1750 560h362l-935 1880h-362l935-1880z"
-              />
-            </svg>
+            <VisaIcon />
+            <MastercardIcon />
+            <AmexIcon />
+            <RazorpayIcon />
+            <PayPalIcon />
           </div>
         </div>
       </footer>
@@ -384,11 +355,12 @@ const Footer = () => {
           </button>
           
           <button
-            onClick={() => handleNavigation('/profile')}
+            onClick={handleProfileClick}
             className="flex flex-col items-center space-y-1 p-2 text-green-700 hover:text-green-900"
+            title={isLoggedIn ? 'Profile' : 'Login'}
           >
             <div className="w-6 h-6 flex items-center justify-center">👤</div>
-            <span className="text-xs font-medium">Profile</span>
+            <span className="text-xs font-medium">{isLoggedIn ? 'Profile' : 'Login'}</span>
           </button>
         </div>
       </div>

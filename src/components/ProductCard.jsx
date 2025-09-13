@@ -9,6 +9,9 @@ const ProductCard = ({ product }) => {
 
   const navigate = useNavigate();
 
+  // Check if product is a plant
+  const isPlant = product.type === 'Plants' || product.category?.toLowerCase() === 'plants';
+
   const handleAddToCart = async (e) => {
     e.stopPropagation();
     
@@ -21,7 +24,9 @@ const ProductCard = ({ product }) => {
     }
 
     try {
-      await addToCartAPI(userId, product, 1, { size, pot });
+      // Only send size and pot options for plants
+      const options = isPlant ? { size, pot } : {};
+      await addToCartAPI(userId, product, 1, options);
       toast.success('🛒 Added to cart!');
     } catch (err) {
       console.error(err);
@@ -74,47 +79,51 @@ const ProductCard = ({ product }) => {
             ))}
           </div>
 
-          {/* Size Selector - Desktop */}
-          <div className="mt-3">
-            <p className="text-sm font-medium text-gray-600 mb-1">Select Size</p>
-            <div className="flex gap-2">
-              {['S', 'M', 'L'].map((s) => (
-                <button
-                  key={s}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSize(s);
-                  }}
-                  className={`w-8 h-8 rounded-full border text-sm font-medium ${
-                    size === s ? 'bg-green-600 text-white border-green-600' : 'bg-gray-100 border-gray-300 text-gray-700'
-                  }`}
-                >
-                  {s}
-                </button>
-              ))}
+          {/* Size Selector - Desktop (Only for Plants) */}
+          {isPlant && (
+            <div className="mt-3">
+              <p className="text-sm font-medium text-gray-600 mb-1">Select Size</p>
+              <div className="flex gap-2">
+                {['S', 'M', 'L'].map((s) => (
+                  <button
+                    key={s}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSize(s);
+                    }}
+                    className={`w-8 h-8 rounded-full border text-sm font-medium ${
+                      size === s ? 'bg-green-600 text-white border-green-600' : 'bg-gray-100 border-gray-300 text-gray-700'
+                    }`}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Pot Selector - Desktop */}
-          <div className="mt-3">
-            <p className="text-sm font-medium text-gray-600 mb-1">Select Pot</p>
-            <div className="flex gap-2 flex-wrap">
-              {(product.potOptions || ['Default', 'Premium']).map((p) => (
-                <button
-                  key={p}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setPot(p);
-                  }}
-                  className={`px-3 py-1 rounded-full border text-xs font-medium ${
-                    pot === p ? 'bg-green-600 text-white border-green-600' : 'bg-gray-100 border-gray-300 text-gray-700'
-                  }`}
-                >
-                  {p}
-                </button>
-              ))}
+          {/* Pot Selector - Desktop (Only for Plants) */}
+          {isPlant && (
+            <div className="mt-3">
+              <p className="text-sm font-medium text-gray-600 mb-1">Select Planter</p>
+              <div className="flex gap-2 flex-wrap">
+                {(product.potOptions || ['Default', 'Premium']).map((p) => (
+                  <button
+                    key={p}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setPot(p);
+                    }}
+                    className={`px-3 py-1 rounded-full border text-xs font-medium ${
+                      pot === p ? 'bg-green-600 text-white border-green-600' : 'bg-gray-100 border-gray-300 text-gray-700'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           <button
             onClick={handleAddToCart}
@@ -173,47 +182,51 @@ const ProductCard = ({ product }) => {
             )}
           </div>
 
-          {/* Size Selector - Mobile */}
-          <div className="mt-2">
-            <p className="text-xs font-medium text-gray-600 mb-1">Select Size</p>
-            <div className="flex gap-1">
-              {['S', 'M', 'L'].map((s) => (
-                <button
-                  key={s}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSize(s);
-                  }}
-                  className={`w-6 h-6 rounded-full border text-xs font-medium ${
-                    size === s ? 'bg-green-600 text-white border-green-600' : 'bg-gray-100 border-gray-300 text-gray-700'
-                  }`}
-                >
-                  {s}
-                </button>
-              ))}
+          {/* Size Selector - Mobile (Only for Plants) */}
+          {isPlant && (
+            <div className="mt-2">
+              <p className="text-xs font-medium text-gray-600 mb-1">Select Size</p>
+              <div className="flex gap-1">
+                {['S', 'M', 'L'].map((s) => (
+                  <button
+                    key={s}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSize(s);
+                    }}
+                    className={`w-6 h-6 rounded-full border text-xs font-medium ${
+                      size === s ? 'bg-green-600 text-white border-green-600' : 'bg-gray-100 border-gray-300 text-gray-700'
+                    }`}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
-          {/* Pot Selector - Mobile (simple buttons) */}
-          <div className="mt-2">
-            <p className="text-xs font-medium text-gray-600 mb-1">Select Pot</p>
-            <div className="flex gap-1 flex-wrap">
-              {(product.potOptions || ['Default', 'Premium']).map((p) => (
-                <button
-                  key={p}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setPot(p);
-                  }}
-                  className={`px-2 py-1 rounded-full border text-xs font-medium ${
-                    pot === p ? 'bg-green-600 text-white border-green-600' : 'bg-gray-100 border-gray-300 text-gray-700'
-                  }`}
-                >
-                  {p}
-                </button>
-              ))}
+          {/* Pot Selector - Mobile (Only for Plants) */}
+          {isPlant && (
+            <div className="mt-2">
+              <p className="text-xs font-medium text-gray-600 mb-1">Select Planter</p>
+              <div className="flex gap-1 flex-wrap">
+                {(product.potOptions || ['Default', 'Premium']).map((p) => (
+                  <button
+                    key={p}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setPot(p);
+                    }}
+                    className={`px-2 py-1 rounded-full border text-xs font-medium ${
+                      pot === p ? 'bg-green-600 text-white border-green-600' : 'bg-gray-100 border-gray-300 text-gray-700'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Add to Basket */}
           <button

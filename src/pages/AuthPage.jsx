@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../utils/AuthContext';
-import { loginUser, registerUser } from '../api/authAPI';
+import { loginUser, registerUser, googleAuth } from '../api/authAPI'; // Add googleAuth here
 import { getUserIdFromToken } from '../utils/authUtils';
 import home0 from '../assets/Home0.png';
 import { Mail, Lock, User, Leaf, Loader2, AlertCircle } from 'lucide-react';
+import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 
 const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -94,9 +96,53 @@ const AuthPage = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    alert('🌐 Google Login clicked — integrate your OAuth logic here!');
-  };
+  const handleGoogleSuccess = async (credentialResponse) => {
+  try {
+    setLoading(true);
+    setErrors({});
+    setGeneralError('');
+
+    // Decode the JWT token from Google
+    const decoded = jwtDecode(credentialResponse.credential);
+    
+    console.log('Google user data:', decoded);
+
+    // Prepare data for API
+    const googleData = {
+      email: decoded.email,
+      name: decoded.name,
+      picture: decoded.picture,
+      googleId: decoded.sub,
+      credential: credentialResponse.credential,
+    };
+
+    // Call your API function
+    const data = await googleAuth(googleData);
+
+    // Store user data (matching your existing format)
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    localStorage.setItem('userId', data.user.id);
+
+    setIsLoggedIn(true);
+    setUserInitial(data.user.name.charAt(0).toUpperCase());
+
+    alert('✅ Google login successful!');
+    navigate('/');
+
+  } catch (error) {
+    console.error('Google login error:', error);
+    setGeneralError(error.message || 'Something went wrong with Google login. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
+
+const handleGoogleError = () => {
+  console.error('Google login failed');
+  setGeneralError('Google login failed. Please try again.');
+};
+
 
   const toggleAuthMode = () => {
     setIsLogin(!isLogin);
@@ -228,37 +274,21 @@ const AuthPage = () => {
 
           <div className="mt-5">
   <p className="text-center text-sm text-gray-500 mb-3">Or continue with</p>
-  <button
-    onClick={handleGoogleLogin}
-    className="w-full flex items-center justify-center border border-gray-300 rounded-xl py-2 hover:bg-gray-100 transition disabled:opacity-50"
-    disabled={loading}
-  >
-    {/* Google SVG Icon */}
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-5 h-5 mr-2"
-      viewBox="0 0 488 512"
-    >
-      <path
-        fill="#4285F4"
-        d="M488 261.8c0-17.4-1.6-34-4.7-50.1H249v94.8h134.6c-5.8 31-23 57.2-49 74.6l79.2 61.5c46.4-42.7 74.2-105.6 74.2-180.8z"
-      />
-      <path
-        fill="#34A853"
-        d="M249 492c66.7 0 122.6-22 163.5-59.5l-79.2-61.5c-22 15-50 23.9-84.3 23.9-64.8 0-119.6-43.7-139.2-102.5l-81.9 63.3C68.9 435.4 151.9 492 249 492z"
-      />
-      <path
-        fill="#FBBC05"
-        d="M109.8 292.4c-4.6-13.9-7.2-28.6-7.2-43.7s2.6-29.8 7.2-43.7l-81.9-63.3C9.6 166.1 0 206.9 0 248.7c0 41.8 9.6 82.6 27.9 116.9l81.9-63.2z"
-      />
-      <path
-        fill="#EA4335"
-        d="M249 97.9c36.3 0 68.8 12.5 94.5 37l70.7-70.7C371.6 24.4 315.7 0 249 0 151.9 0 68.9 56.6 27.9 131.8l81.9 63.3C129.4 141.6 184.2 97.9 249 97.9z"
-      />
-    </svg>
-    Continue with Google
-  </button>
+  <div className="w-full">
+    <GoogleLogin
+      onSuccess={handleGoogleSuccess}
+      onError={handleGoogleError}
+      useOneTap={false}
+      theme="outline"
+      size="large"
+      text="signin_with"
+      shape="rectangular"
+      width="100%"
+      disabled={loading}
+    />
+  </div>
 </div>
+
 
           <p className="text-sm text-center mt-6 text-gray-600">
             {isLogin ? "Don't have an account?" : 'Already have an account?'}{' '}
